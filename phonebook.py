@@ -8,8 +8,8 @@ format_file = config['FILE']['format']
 file = "{}.{}".format(name_file,format_file)
 
 def write_to_file(t):
-    with open("{}.{}".format(name_file,format_file), "w") as file:
-        json.dump("{}".format(t), file)
+    with open(file, "w") as f:
+        f.write(json.dumps(t, file))
 
 def read_file():
     with open(file, "r") as f:
@@ -21,7 +21,6 @@ def remove_data(item):
     del a[item]
     with open(file, 'w') as asd:
         asd.write(json.dumps(a))
-
 
 
 create = 'c'
