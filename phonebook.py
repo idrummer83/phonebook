@@ -4,12 +4,33 @@ config.read('config.ini')
 
 name_file = config['FILE']['filename']
 format_file = config['FILE']['format']
+format_csv = config['FILE']['csv_format']
 
 file = "{}.{}".format(name_file,format_file)
+csv_file = "{}.{}".format(name_file,format_csv)
 
-def write_to_file(t):
-    with open(file, "w") as f:
-        f.write(json.dumps(t, file))
+create = 'c'
+read = 'r'
+update = 'u'
+delete = 'd'
+csv = 's'
+exit = 'e'
+
+contacts = {}
+csv_columns = ['Name','Phone']
+
+def write_to_file(a, b):
+    try:
+        with open(file, 'r') as f:
+            aa = json.loads(f.read())
+            if aa:
+                aa[a] = b
+                with open(file, "w") as f:
+                    f.write(json.dumps(aa, file))
+    except:
+        contacts[a] = b
+        with open(file, "w") as f:
+            f.write(json.dumps(contacts, file))
 
 def read_file():
     with open(file, "r") as f:
@@ -31,29 +52,6 @@ def update_data():
     with open(file, 'w') as asd:
         asd.write(json.dumps(a))
 
-def save_csv():
-    with open(file, 'r') as f:
-        a = json.loads(f.read())
-    with open('phonebook.csv', 'w') as f:
-        writer = csv.writer(f)
-        for key, value in a.items():
-            writer.writerow([key, value])
-        # writer = csv.DictWriter(f, fieldnames=csv_columns)
-        # writer.writeheader()
-        # for data in a:
-        #     writer.writerow(data)
-
-
-create = 'c'
-read = 'r'
-update = 'u'
-delete = 'd'
-csv = 's'
-exit = 'e'
-
-contacts = {}
-csv_columns = ['Name','Phone']
-
 def check_name():
     name = input('name: ')
     while len(name) < 3:
@@ -66,6 +64,18 @@ def check_phone():
         phone = input('minimal 6 numbers, please type phone: ')
     return phone
 
+def save_csv():
+    try:
+        with open(file, 'r') as f:
+            aa = json.loads(f.read())
+            if aa:
+                with open('mycsvfile.csv', 'w') as f:
+                    w = csv.Writer(f)
+                    w.writerows(aa.items())
+    except:
+        pass
+
+
 def action():
     while True:
         try:
@@ -73,9 +83,7 @@ def action():
             if command == create:
                 n = check_name()
                 p = check_phone()
-                contacts[n] = p
-                write_to_file(contacts)
-                print('your contacts are: {}'.format(contacts))
+                write_to_file(n, p)
             elif command == read:
                 read_file()
             elif command == update:
