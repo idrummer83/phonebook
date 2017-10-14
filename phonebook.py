@@ -16,7 +16,7 @@ create = 'c'
 read = 'r'
 update = 'u'
 delete = 'd'
-csv = 's'
+to_csv = 's'
 exit = 'e'
 
 class Json:
@@ -27,6 +27,17 @@ class Json:
     def write(self, content):
         with open(file, "w") as f:
             self.file_write = f.write(json.dumps(content, file))
+
+
+# class Csv:
+#     def write(self, content):
+#         with open(file, 'w') as csvfile:
+#             fieldnames = ['name', 'phone']
+#             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+#
+#             writer.writeheader()
+#             for i, k in content.items():
+#                 writer.writerow({'name': i, 'phone': k})
 
 
 if read_conf('DEFAULT','json') == 'json':
@@ -48,6 +59,15 @@ class Crud:
 
     def read_file(self):
         print(self.pb)
+        return self.pb
+
+    def write_to_cvs(self, d):
+        with open(csv_file, 'w') as csvfile:
+            fieldnames = ['name', 'phone']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writeheader()
+            for i, k in d.items():
+                writer.writerow({'name': i, 'phone': k})
 
     def remove_data(self, item):
         items = self.pb
@@ -63,31 +83,6 @@ class Crud:
 
 
 crud = Crud(db)
-
-def save_csv():
-    try:
-        with open(file, 'r') as f:
-            aa = json.loads(f.read())
-            if len(aa) > 0:
-                with open('mycsvfile.csv', 'w') as f:
-                    w = csv.Writer(f)
-                    for r in aa:
-                        w.writerows(aa.items(r))
-    except:
-        pass
-
-    # def check_name():
-    #     name = input('name: ')
-    #     while len(name) < 3:
-    #         name = input('minimal 3 letters, please type name: ')
-    #     return name
-    #
-    # def check_phone():
-    #     phone = input('phone: ')
-    #     while len(phone) < 6:
-    #         phone = input('minimal 6 numbers, please type phone: ')
-    #     return phone
-
 
 class Validate:
     def check_name(self):
@@ -120,8 +115,9 @@ def action():
             elif command == delete:
                 item = input('are you shure? type your "name": ')
                 crud.remove_data(item)
-            elif command == csv:
-                save_csv()
+            elif command == to_csv:
+                f = crud.read_file()
+                crud.write_to_cvs(f)
             elif command == exit:
                 print('out from program')
                 break
