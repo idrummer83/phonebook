@@ -1,5 +1,6 @@
 import csv
-from saveto.saveto import jsonorcsv, csv_file
+from saveto.saveto import jsonorcsv
+from serialiser.format import csv_file
 
 db = jsonorcsv()
 
