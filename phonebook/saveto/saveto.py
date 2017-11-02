@@ -8,5 +8,5 @@ def jsonorcsv():
         db = Json()  # class
         return db
     else:
-        db = csv()  # class
+        db = Csv()  # class
         return db

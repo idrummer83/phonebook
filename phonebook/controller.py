@@ -1,13 +1,16 @@
 from crud import crud
 from constants import *
 from validate import Validate
+from console.cnsl import ask, out, start
 
 valid = Validate()
+
 # controller
-def action():
+def action(a):
     while True:
         try:
-            command = input('Enter your command: c(create), r(read), u(update), d(delete), s(save to csv), e(exit) : ')
+            command = start(a)
+            # command = input('Enter your command: c(create), r(read), u(update), d(delete), s(save to csv), e(exit) : ')
             if command == create:
                 n = valid.check_name()
                 p = valid.check_phone()
@@ -17,13 +20,15 @@ def action():
             elif command == update:
                 crud.update_data()
             elif command == delete:
-                item = input('are you shure? type your "name": ')
+                item = ask('shure')
+                # item = input('are you shure? type your "name": ')
                 crud.remove_data(item)
             elif command == to_csv:
                 f = crud.read_file()
                 crud.write_to_cvs(f)
             elif command == exit:
-                print('out from program')
+                out('out')
+                # print('out from program')
                 break
 
         except ValueError:
