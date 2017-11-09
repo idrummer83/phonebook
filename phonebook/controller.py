@@ -30,5 +30,5 @@ def action():
             print('Please choose your command')
 
 
-if __name__ == '__main__':
-    action()
+# if __name__ == '__main__':
+#     action()
