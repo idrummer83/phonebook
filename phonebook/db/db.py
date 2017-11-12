@@ -44,5 +44,5 @@ def act():
             print('Please choose your command')
 
 
-if __name__ == '__main__':
-    act()
+# if __name__ == '__main__':
+#     act()
